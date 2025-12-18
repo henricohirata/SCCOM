@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [mensagem, setMensagem] = useState('Tentando conectar ao Java...');
+
+  useEffect(() => {
+    // Tenta bater na porta 8081 do Backend
+    fetch('http://localhost:8081/teste')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro na resposta da rede');
+        }
+        return response.text();
+      })
+      .then(data => setMensagem(data))
+      .catch(error => setMensagem('Erro: ' + error));
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>Sistema de Vendas (SCCOM)</h1>
+      <hr />
+      <div style={{ padding: '20px', backgroundColor: '#e0f7fa', borderRadius: '8px', border: '1px solid #006064' }}>
+        <strong>Status da Conexão:</strong>
+        {/* Se funcionar, a mensagem azul do Java vai aparecer aqui */}
+        <p style={{ fontSize: '20px', color: '#006064', fontWeight: 'bold' }}>
+          {mensagem}
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
