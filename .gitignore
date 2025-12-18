@@ -1,0 +1,18 @@
+# Pastas de IDE e Sistemas Operativos
+.idea/
+.vscode/
+*.log
+.DS_Store
+
+# Backend (Java - Spring Boot)
+backend/target/
+backend/help.md
+backend/.mvn/wrapper/maven-wrapper.properties
+
+# Frontend (Node - React)
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+# Banco de Dados (Docker)
+db_data/
