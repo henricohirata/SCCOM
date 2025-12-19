@@ -10,5 +10,5 @@ import java.util.List;
 public interface RepoCliente extends JpaRepository<Cliente, Long> {
 
     // Aqui você pode adicionar buscas específicas, ex: "buscar todos os clientes bloqueados"
-    List<Cliente> findByStatus(StatusCliente status);
+    List<Cliente> findByAtivo(Boolean ativo);
 }

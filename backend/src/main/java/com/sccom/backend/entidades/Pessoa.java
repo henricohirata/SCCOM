@@ -32,7 +32,7 @@ public class Pessoa {
 
     // Foto de perfil
     @Lob
-    @Column(columnDefinition = "MEDIUMLOB")
+    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] foto;
 
     // Endereco
