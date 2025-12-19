@@ -3,15 +3,16 @@ package com.sccom.backend.entidades;
 import com.sccom.backend.enums.CargoColaborador;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
 public class Colaborador {
 
     @Id
+    @Column(name = "id")
     private Long id;
 
     @OneToOne
@@ -19,18 +20,31 @@ public class Colaborador {
     @JoinColumn(name = "id")
     private Pessoa pessoa;
 
+    @Column(unique = true, nullable = false, length = 50)
+    private String login;
+
+    @Column(nullable = false)
+    private String senha;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CargoColaborador cargo;
 
-    @Column(nullable = false)
-    private BigDecimal salario;
+    @ElementCollection
+    @CollectionTable(name = "niveis_colaborador", joinColumns = @JoinColumn(name = "id_colaborador"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "nivel")
+    private Set<CargoColaborador> niveis = new HashSet<>();
+
+    @Column(unique = true, length = 20)
+    private String matricula;
 
     private LocalDate dataAdmissao;
+    private LocalDate dataDemissao;
 
-    @Column(nullable = false)
     private Boolean ativo = true;
 
-    @Column(unique = true)
-    private String matricula;
+    public void addPerfil(CargoColaborador cargo) {
+        this.niveis.add(cargo);
+    }
 }

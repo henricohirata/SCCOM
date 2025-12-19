@@ -8,6 +8,7 @@ import lombok.Data;
 public class Fornecedor {
 
     @Id
+    @Column(name = "id")
     private Long id;
 
     @OneToOne
@@ -15,6 +16,15 @@ public class Fornecedor {
     @JoinColumn(name = "id")
     private Pessoa pessoa;
 
+    // --- DADOS ESPECÍFICOS DO LEGADO ---
+
+    @Column(columnDefinition = "TEXT")
+    private String observacoes; // Campo 'Obs' do FFornecedores.py
+
+    // --- CAMPOS ÚTEIS PARA O FUTURO (Opcionais) ---
     private String site;
-    private String contatoComercial;
+    private String contatoComercial; // Nome do vendedor que nos atende lá
+
+    // Controle de Status (Ativo/Inativo para compras)
+    private Boolean ativo = true;
 }

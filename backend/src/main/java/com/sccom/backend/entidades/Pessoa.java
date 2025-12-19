@@ -3,6 +3,8 @@ package com.sccom.backend.entidades;
 import com.sccom.backend.enums.TipoPessoa;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,15 +27,40 @@ public class Pessoa {
     @Column(nullable = false, length = 10)
     private TipoPessoa tipo;
 
-    private String endereco;
+    // Data de Nascimento/Fundacao
+    private LocalDate dataNascimento;
+
+    // Foto de perfil
+    @Lob
+    @Column(columnDefinition = "MEDIUMLOB")
+    private byte[] foto;
+
+    // Endereco
+    private String logradouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String cidade;
+    private String uf;
+    private String cep;
+
+    // Informacoes de Contato
     private String telefone;
     private String email;
 
     @Column(updatable = false)
     private LocalDateTime dataCadastro;
 
+    private LocalDateTime dataUltimaAtualizacao;
+
     @PrePersist
     public void prePersist() {
         this.dataCadastro = LocalDateTime.now();
+        this.dataUltimaAtualizacao = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.dataUltimaAtualizacao = LocalDateTime.now();
     }
 }

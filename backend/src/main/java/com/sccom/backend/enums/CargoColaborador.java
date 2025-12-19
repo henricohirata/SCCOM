@@ -1,8 +1,9 @@
 package com.sccom.backend.enums;
 
 public enum CargoColaborador {
-    VENDEDOR,
+    ADMIN,
     GERENTE,
+    VENDEDOR,
     ESTOQUISTA,
-    ADMINISTRATIVO
+    FINANCEIRO
 }

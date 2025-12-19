@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class Cliente {
 
     @Id
-    private Long id; // Note que NÃO tem @GeneratedValue
+    private Long id;
 
     @OneToOne
     @MapsId
