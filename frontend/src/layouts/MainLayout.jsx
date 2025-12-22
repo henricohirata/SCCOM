@@ -1,83 +1,99 @@
-import { Link } from 'react-router-dom';
 import { useGlobal } from '../context/GlobalContext';
+import './MainLayout.css';
 
 export default function MainLayout({ children }) {
   const { activeTab, setActiveTab, selectedClient, clientSubView, setClientSubView } = useGlobal();
 
   return (
-    <div style={{ display: 'flex', height: '100vh', fontFamily: 'Arial, sans-serif' }}>
+    <div className="app-container">
       
-      {/* 1. LEFT SIDEBAR: Global Navigation */}
-      <aside style={{ width: '80px', backgroundColor: '#2c3e50', color: '#ecf0f1', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 0' }}>
-        <div style={{ marginBottom: '20px', fontWeight: 'bold' }}>SCCOM</div>
-        
-        <NavButton label="Cli" active={activeTab === 'clientes'} onClick={() => setActiveTab('clientes')} />
-        <NavButton label="Prod" active={activeTab === 'produtos'} onClick={() => setActiveTab('produtos')} />
-        <NavButton label="Forn" active={activeTab === 'fornecedores'} onClick={() => setActiveTab('fornecedores')} />
-        <NavButton label="Fin" active={activeTab === 'financeiro'} onClick={() => setActiveTab('financeiro')} />
-      </aside>
+      {/* 1. BARRA SUPERIOR GLOBAL (Ocupa toda a largura) */}
+      <header className="global-header">
+        <div className="header-left">
+           <span className="app-logo">SCCOM</span>
+        </div>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        
-        {/* 2. TOP BAR: Global Search & User Info */}
-        <header style={{ height: '60px', backgroundColor: '#ecf0f1', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 20px', borderBottom: '1px solid #ccc' }}>
-          <input type="text" placeholder="Global Search..." style={{ padding: '8px', width: '300px' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span>Admin User</span>
-            <div style={{ width: '35px', height: '35px', backgroundColor: '#95a5a6', borderRadius: '50%' }}></div>
+        <div className="header-center">
+          <input type="text" placeholder="Pesquisar em todo o sistema..." className="global-search-input" />
+        </div>
+
+        <div className="header-right">
+          <div className="user-info">
+            <div style={{ textAlign: 'right' }}>
+              <div className="user-name">Henrico</div>
+              <div className="user-role">Admin</div>
+            </div>
+            <div className="user-avatar"></div>
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* 3. MIDDLE SCREEN: Main Workspace */}
-        <main style={{ flex: 1, padding: '20px', backgroundColor: '#fff', overflowY: 'auto' }}>
-          {children}
-        </main>
-      </div>
-
-      {/* 4. RIGHT SIDEBAR: Contextual Menu (Only shows if a Client is selected) */}
-      {activeTab === 'clientes' && selectedClient && (
-        <aside style={{ width: '250px', backgroundColor: '#f8f9fa', borderLeft: '1px solid #ddd', display: 'flex', flexDirection: 'column' }}>
-          {/* Client Profile Section */}
-          <div style={{ padding: '20px', borderBottom: '1px solid #ddd', textAlign: 'center' }}>
-            <div style={{ width: '80px', height: '80px', backgroundColor: '#3498db', borderRadius: '50%', margin: '0 auto 10px' }}></div>
-            <h3>{selectedClient.nome}</h3>
-            <p style={{ fontSize: '0.9em', color: '#666' }}>VIP Member</p>
-          </div>
-
-          {/* Sub Menu */}
-          <nav style={{ display: 'flex', flexDirection: 'column', padding: '10px' }}>
-            <SubButton label="POS / Venda" active={clientSubView === 'pos'} onClick={() => setClientSubView('pos')} />
-            <SubButton label="Devoluções" active={clientSubView === 'returns'} onClick={() => setClientSubView('returns')} />
-            <SubButton label="Relatórios" active={clientSubView === 'reports'} onClick={() => setClientSubView('reports')} />
-            <div style={{ height: '1px', background: '#ccc', margin: '10px 0' }} />
-            <button onClick={() => window.alert('Fechando cliente...')} style={{ padding: '10px', backgroundColor: '#e74c3c', color: 'white', border: 'none', cursor: 'pointer' }}>Fechar Cliente</button>
-          </nav>
+      {/* 2. CORPO DO SISTEMA (Onde ficam as Ilhas Flutuantes) */}
+      <div className="islands-wrapper">
+        
+        {/* ILHA 1: Menu de Navegação Global */}
+        <aside className="global-nav">
+          <NavButton label="Cli" active={activeTab === 'clientes'} onClick={() => setActiveTab('clientes')} />
+          <NavButton label="Prod" active={activeTab === 'produtos'} onClick={() => setActiveTab('produtos')} />
+          <NavButton label="Forn" active={activeTab === 'fornecedores'} onClick={() => setActiveTab('fornecedores')} />
+          <NavButton label="Fin" active={activeTab === 'financeiro'} onClick={() => setActiveTab('financeiro')} />
         </aside>
-      )}
+
+        {/* ILHA 2: Workspace Principal */}
+        <main className="main-island">
+          <div className="workspace-content">
+            {children}
+          </div>
+        </main>
+
+        
+
+        {/* ILHA 3 e 4: Contexto do Cliente (Só aparece se necessário) */}
+        {activeTab === 'clientes' && selectedClient && (
+          <div className="context-wrapper">
+            
+            {/* Dossiê (Card de Informação) */}
+            <aside className="client-dossier">
+              <div className="dossier-header">
+                <div className="dossier-avatar">{selectedClient.nome.charAt(0)}</div>
+                <h3>{selectedClient.nome}</h3>
+                <span className="badge-vip">VIP</span>
+              </div>
+              <div className="dossier-info">
+                <p><span>CPF</span> {selectedClient.cpf || '...'}</p>
+                <p><span>Tel</span> (11) 99999-9999</p>
+              </div>
+            </aside>
+
+            {/* Menu de Contexto (Barra de Ações) */}
+            <aside className="context-nav">
+              <div className="context-label">Ações</div>
+              <ContextButton label="🛒" subLabel="PDV" active={clientSubView === 'pos'} onClick={() => setClientSubView('pos')} />
+              <ContextButton label="🔄" subLabel="Dev" active={clientSubView === 'returns'} onClick={() => setClientSubView('returns')} />
+              <ContextButton label="📄" subLabel="Rel" active={clientSubView === 'reports'} onClick={() => setClientSubView('reports')} />
+              <div style={{ marginTop: 'auto' }}>
+                <ContextButton label="✕" subLabel="Fechar" onClick={() => { /* Lógica fechar */ }} danger />
+              </div>
+            </aside>
+
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }
 
-// Simple Button Components for styles
+// Componentes Auxiliares
 const NavButton = ({ label, active, onClick }) => (
-  <button 
-    onClick={onClick}
-    style={{ 
-      width: '60px', height: '60px', marginBottom: '10px', border: 'none', 
-      backgroundColor: active ? '#34495e' : 'transparent', color: 'white', 
-      cursor: 'pointer', borderRadius: '8px', fontSize: '12px' 
-    }}>
+  <button className={`nav-button ${active ? 'active' : ''}`} onClick={onClick}>
     {label}
   </button>
 );
 
-const SubButton = ({ label, active, onClick }) => (
-  <button 
-    onClick={onClick}
-    style={{ 
-      padding: '12px', textAlign: 'left', border: 'none', backgroundColor: active ? '#e3e6e8' : 'transparent', 
-      cursor: 'pointer', fontWeight: active ? 'bold' : 'normal' 
-    }}>
-    {label}
+const ContextButton = ({ label, subLabel, active, onClick, danger }) => (
+  <button className={`context-button ${active ? 'active' : ''} ${danger ? 'danger' : ''}`} onClick={onClick}>
+    <span style={{ fontSize: '18px' }}>{label}</span>
+    <span style={{ fontSize: '9px', marginTop: '3px' }}>{subLabel}</span>
   </button>
 );
