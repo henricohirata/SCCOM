@@ -19,5 +19,15 @@ public class ControladorCliente {
         return ResponseEntity.ok(novoCliente);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteDTO> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteDTO> atualizar(@PathVariable Long id, @RequestBody ClienteDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
+    }
+
     // TODO: Adicionar GET, PUT, DELETE conforme necessidade
 }

@@ -1,19 +1,32 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import CadastroCliente from './pages/CadastroCliente';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { GlobalProvider, useGlobal } from './context/GlobalContext';
+import MainLayout from './layouts/MainLayout';
+import ScreenClientes from './pages/Cliente/ScreenCliente';
+
+// A wrapper to handle the conditional logic of which screen to show
+function AppContent() {
+  const { activeTab } = useGlobal();
+
+  return (
+    <MainLayout>
+      {activeTab === 'clientes' && <ScreenClientes />}
+      {activeTab === 'produtos' && <h1>Gestão de Produtos (Em Breve)</h1>}
+      {activeTab === 'fornecedores' && <h1>Gestão de Fornecedores (Em Breve)</h1>}
+      {/* Add other tabs here */}
+    </MainLayout>
+  );
+}
 
 function App() {
   return (
-    <BrowserRouter>
-      <nav style={{ padding: '10px', backgroundColor: '#eee', marginBottom: '20px' }}>
-        <Link to="/" style={{ marginRight: '10px' }}>Home</Link>
-        <Link to="/clientes/novo">Novo Cliente</Link>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<h1>Bem-vindo ao SCCOM</h1>} />
-        <Route path="/clientes/novo" element={<CadastroCliente />} />
-      </Routes>
-    </BrowserRouter>
+    <GlobalProvider>
+      <BrowserRouter>
+        <Routes>
+           {/* We use a wildcard to let the AppContent handle the internal view switching */}
+           <Route path="/*" element={<AppContent />} />
+        </Routes>
+      </BrowserRouter>
+    </GlobalProvider>
   );
 }
 
