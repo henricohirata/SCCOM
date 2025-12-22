@@ -1,108 +1,82 @@
-import { useState } from 'react';
+// src/pages/Cliente/ScreenCliente.jsx
 import { useGlobal } from '../../context/GlobalContext';
+import ClientSearch from '../../components/BuscaClientes/BuscaClientes';
 
 export default function ScreenCliente() {
-  const { selectedClient, setSelectedClient, clientSubView, cart, addToCart } = useGlobal();
-  const [searchTerm, setSearchTerm] = useState('');
+  const { selectedClient, setSelectedClient, clientSubView, cart, addToCart, clearClientSession } = useGlobal();
 
-  // MOCK DATA - Replace with API call to GET /clientes
-  const mockClients = [
-    { id: 1, nome: 'Henrico Hirata', cpf: '123.456.789-00' },
-    { id: 2, nome: 'Maria Silva', cpf: '987.654.321-11' },
-  ];
-
-  // VIEW 1: Search Selection
+  // VIEW 1: Seleção de Cliente (Estado Inicial)
   if (!selectedClient) {
     return (
-      <div>
-        <h2>Buscar Cliente</h2>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-          <input 
-            type="text" 
-            placeholder="Nome, CPF ou Telefone..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ padding: '10px', width: '100%', maxWidth: '400px' }}
-          />
-          <button style={{ padding: '10px 20px', backgroundColor: '#2980b9', color: 'white', border: 'none' }}>Buscar</button>
-        </div>
+      <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
+        <h1 style={{ marginBottom: '10px', color: '#2c3e50' }}>Identificar Cliente</h1>
+        <p style={{ marginBottom: '30px', color: '#7f8c8d' }}>
+          Inicie a venda buscando pelo CPF/CNPJ ou Nome do cliente.
+        </p>
 
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ textAlign: 'left', background: '#f2f2f2' }}>
-              <th style={{ padding: '10px' }}>Nome</th>
-              <th style={{ padding: '10px' }}>CPF</th>
-              <th style={{ padding: '10px' }}>Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mockClients.map(c => (
-              <tr key={c.id} style={{ borderBottom: '1px solid #eee' }}>
-                <td style={{ padding: '10px' }}>{c.nome}</td>
-                <td style={{ padding: '10px' }}>{c.cpf}</td>
-                <td style={{ padding: '10px' }}>
-                  <button 
-                    onClick={() => setSelectedClient(c)}
-                    style={{ padding: '5px 10px', backgroundColor: '#27ae60', color: 'white', border: 'none', cursor: 'pointer' }}>
-                    Selecionar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {/* Aqui entra o nosso novo componente */}
+        <ClientSearch onClientSelect={setSelectedClient} />
+        
+        <div style={{ marginTop: '40px', padding: '20px', background: '#fff3cd', borderRadius: '8px', color: '#856404' }}>
+          <strong>Dica:</strong> Pressione ENTER para selecionar o primeiro resultado da lista.
+        </div>
       </div>
     );
   }
 
-  // VIEW 2: Client Selected (The Middle Screen content)
+  // VIEW 2: Cliente Selecionado (Painel de Vendas/PDV)
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h2>Painel do Cliente: {selectedClient.nome}</h2>
+        <button 
+            onClick={clearClientSession}
+            style={{ padding: '8px 16px', background: '#e74c3c', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+        >
+            Fechar Atendimento
+        </button>
+      </div>
+
       {clientSubView === 'pos' && (
-        <div>
-          <h2>PDV - Nova Venda</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
-            
-            {/* Left: Product List (Mock) */}
-            <div style={{ border: '1px solid #ddd', padding: '10px' }}>
-              <h3>Produtos Disponíveis</h3>
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+            {/* ... (O restante do código do PDV/Carrinho permanece igual ao seu arquivo original) ... */}
+            <div style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: 'white' }}>
+              <h3>Produtos</h3>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '15px' }}>
                 {['Camiseta', 'Calça Jeans', 'Boné', 'Meias'].map(prod => (
                   <button 
                     key={prod} 
                     onClick={() => addToCart({ name: prod, price: 50.0 })}
-                    style={{ width: '100px', height: '80px', background: '#ecf0f1', border: '1px solid #bdc3c7' }}>
-                    {prod}<br/>R$ 50,00
+                    style={{ width: '100px', height: '80px', background: '#f8f9fa', border: '1px solid #dee2e6', borderRadius: '6px', cursor: 'pointer' }}>
+                    <strong>{prod}</strong><br/><small>R$ 50,00</small>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Right: Current Cart */}
-            <div style={{ border: '1px solid #ddd', padding: '10px', background: '#fff9c4' }}>
+            <div style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: '#fff' }}>
               <h3>Carrinho</h3>
-              {cart.length === 0 ? <p>Vazio</p> : (
+              {cart.length === 0 ? <p style={{color: '#999'}}>Vazio</p> : (
                 <ul style={{ listStyle: 'none', padding: 0 }}>
                   {cart.map((item, idx) => (
-                    <li key={idx} style={{ borderBottom: '1px solid #ccc', padding: '5px 0' }}>
-                      {item.name} - R$ {item.price}
+                    <li key={idx} style={{ borderBottom: '1px solid #eee', padding: '10px 0' }}>
+                      {item.name} - R$ {item.price.toFixed(2)}
                     </li>
                   ))}
                 </ul>
               )}
-              <div style={{ marginTop: '20px', fontWeight: 'bold' }}>
+              <div style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '18px' }}>
                 Total: R$ {cart.reduce((acc, item) => acc + item.price, 0).toFixed(2)}
               </div>
-              <button style={{ marginTop: '10px', width: '100%', padding: '10px', background: '#e67e22', color: 'white', border: 'none' }}>
+              <button style={{ marginTop: '15px', width: '100%', padding: '12px', background: '#27ae60', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
                 Finalizar Venda
               </button>
             </div>
-          </div>
         </div>
       )}
 
-      {clientSubView === 'returns' && <h2>Gestão de Devoluções</h2>}
-      {clientSubView === 'reports' && <h2>Relatórios do Cliente</h2>}
+      {clientSubView === 'returns' && <h2>Gestão de Devoluções (Em breve)</h2>}
+      {clientSubView === 'reports' && <h2>Relatórios do Cliente (Em breve)</h2>}
     </div>
   );
 }
