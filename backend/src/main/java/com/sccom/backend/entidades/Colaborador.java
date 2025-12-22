@@ -1,3 +1,17 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Representa um colaborador no sistema.
+ * Mapeia a tabela 'colaborador' e expande as informações da pessoa com dados
+ * de login, RH, etc.
+ * ----------------------------------------------------------------------------
+ */
+
 package com.sccom.backend.entidades;
 
 import com.sccom.backend.enums.CargoColaborador;

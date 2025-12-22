@@ -1,3 +1,17 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Representa um fornecedor no sistema.
+ * Mapeia a tabela 'fornecedor' e expande as informações da pessoa com dados de
+ * atividade, contato, etc.
+ * ----------------------------------------------------------------------------
+ */
+
 package com.sccom.backend.entidades;
 
 import jakarta.persistence.*;

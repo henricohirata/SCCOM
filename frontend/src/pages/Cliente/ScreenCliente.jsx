@@ -1,4 +1,17 @@
-// src/pages/Cliente/ScreenCliente.jsx
+/*
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Tela principal do módulo de Clientes. 
+ * Gerencia a alternância entre a visualização de busca (BuscaClientes) e o 
+ * painel de detalhes/venda do cliente selecionado.
+ * ----------------------------------------------------------------------------
+ */
+
 import { useGlobal } from '../../context/GlobalContext';
 import ClientSearch from '../../components/BuscaClientes/BuscaClientes';
 

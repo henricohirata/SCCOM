@@ -1,3 +1,19 @@
+
+/**
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Classe de configuração global para CORS (Cross-Origin Resource Sharing).
+ * Define as políticas de segurança que permitem ou restringem o acesso de
+ * navegadores e aplicações frontend externas aos endpoints da API,
+ * especificando origens, métodos HTTP (GET/POST/etc) e cabeçalhos autorizados.
+ * ----------------------------------------------------------------------------
+ */
+
 package com.sccom.backend.config;
 
 import org.springframework.context.annotation.Configuration;

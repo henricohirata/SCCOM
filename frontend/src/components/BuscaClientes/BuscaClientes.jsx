@@ -1,4 +1,17 @@
-// src/components/ClientSearch/ClientSearch.jsx
+/*
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Componente de pesquisa de clientes. 
+ * Implementa um input com debounce para buscar clientes na API em tempo real e 
+ * exibir os resultados em uma lista selecionável para iniciar uma venda.
+ * ----------------------------------------------------------------------------
+ */
+
 import { useState, useEffect, useRef } from 'react';
 import api from '../../services/api';
 import './BuscaClientes.css';
@@ -28,11 +41,16 @@ export default function ClientSearch({ onClientSelect }) {
                 setResults([]);
                 setShowDropdown(false);
             }
-        }, 300); // Espera 300ms após parar de digitar
+        }, 300); // Delay de 300ms
 
         return () => clearTimeout(timeOutId);
     }, [query]);
 
+
+
+
+
+    
     // 2. Lógica de Seleção (Busca o Cliente Completo)
     const handleSelect = async (clientId) => {
         try {

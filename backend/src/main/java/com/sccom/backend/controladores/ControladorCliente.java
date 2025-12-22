@@ -1,3 +1,17 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Controller REST responsável por operações relacionadas a clientes.
+ * Recebe requisições da API, valida entradas e retorna dados de clientes e/ou
+ * códigos de status.
+ * ----------------------------------------------------------------------------
+ */
+
 package com.sccom.backend.controladores;
 
 import com.sccom.backend.dtos.BuscaClienteDTO;
@@ -40,26 +54,20 @@ public class ControladorCliente {
     }
 
     @GetMapping("/busca-rapida")
-    public ResponseEntity<List<BuscaClienteDTO>> buscarClientes(@RequestParam String q) {
-        // 1. Sanitização: Remove pontos, traços e barras que o usuário digitar
-        // Ex: "123.4" vira "1234"
-        String termoLimpo = q != null ? q.replaceAll("\\D", "") : "";
+    public ResponseEntity<List<BuscaClienteDTO>> buscarClientes(@RequestParam String documento) {
 
-        // 2. Validação básica de performance
-        if (termoLimpo.isEmpty()) {
+        String docLimpo = documento != null ? documento.replaceAll("\\D", "") : "";
+
+        if (docLimpo.isEmpty()) {
             return ResponseEntity.ok(Collections.emptyList());
         }
 
-        // 3. Busca no banco com o JOIN
-        List<Cliente> clientes = repository.buscarPorInicioDocumento(termoLimpo);
+        List<Cliente> clientes = repository.buscarPorInicioDocumento(docLimpo);
 
-        // 4. Conversão para DTO (Java Stream API)
         List<BuscaClienteDTO> resultado = clientes.stream()
-                .map(BuscaClienteDTO::new) // Usa o construtor que criamos acima
+                .map(BuscaClienteDTO::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(resultado);
     }
-
-    // TODO: Adicionar GET, PUT, DELETE conforme necessidade
 }

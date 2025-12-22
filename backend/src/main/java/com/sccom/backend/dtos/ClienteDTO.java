@@ -1,3 +1,18 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Objeto de Transferência de Dados (DTO) para a entidade Cliente.
+ * Facilita o transporte de informações do cliente, servindo como contêiner
+ * para dados de entrada (criação/atualização) e saída (visualização),
+ * desacoplando a API da estrutura do banco.
+ * ----------------------------------------------------------------------------
+ */
+
 package com.sccom.backend.dtos;
 
 import com.sccom.backend.enums.TipoPessoa;

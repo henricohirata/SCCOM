@@ -1,3 +1,17 @@
+/*
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Layout mestre da aplicação. 
+ * Implementa a interface de "Ilhas Flutuantes", contendo a barra lateral de 
+ * navegação e a área de conteúdo dinâmica onde as 'Screens' são renderizadas.
+ * ----------------------------------------------------------------------------
+ */
+
 import { useGlobal } from '../context/GlobalContext';
 import './MainLayout.css';
 

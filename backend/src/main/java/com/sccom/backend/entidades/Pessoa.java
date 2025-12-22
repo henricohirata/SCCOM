@@ -1,3 +1,18 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Representa uma pessoa (física ou jurídica) no sistema.
+ * Mapeia a tabela 'pessoa' e armazena dados pessoais, contato, e ‘IDs’.
+ * É expandido pelas tabelas 'cliente', 'fornecedor', e 'colaborador'. Uma
+ * pessoa pode assumir múltiplos papéis no sistema.
+ * ----------------------------------------------------------------------------
+ */
+
 package com.sccom.backend.entidades;
 
 import com.sccom.backend.enums.TipoPessoa;

@@ -1,3 +1,17 @@
+/*
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Componente raiz da aplicação. 
+ * Define a estrutura principal, injeta o GlobalContext e renderiza o layout 
+ * principal (MainLayout).
+ * ----------------------------------------------------------------------------
+ */
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GlobalProvider, useGlobal } from './context/GlobalContext';
 import MainLayout from './layouts/MainLayout';

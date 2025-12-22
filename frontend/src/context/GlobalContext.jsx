@@ -1,3 +1,17 @@
+/*
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Gerencia o estado global da aplicação. 
+ * Controla a aba ativa (activeTab), o cliente selecionado para venda e o 
+ * carrinho de compras (cart), evitando prop-drilling excessivo.
+ * ----------------------------------------------------------------------------
+ */
+
 import { createContext, useState, useContext } from 'react';
 
 const GlobalContext = createContext();

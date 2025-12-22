@@ -1,3 +1,17 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Contém regras de negócios para gestão de clientes.
+ * Garante a integridade dos dados ao criar ou atualizar registros de clientes
+ * e gerencia a lógica de recuperação.
+ * ----------------------------------------------------------------------------
+ */
+
 package com.sccom.backend.servicos;
 
 import com.sccom.backend.dtos.ClienteDTO;
@@ -5,7 +19,9 @@ import com.sccom.backend.entidades.Cliente;
 import com.sccom.backend.entidades.Pessoa;
 import com.sccom.backend.repositorios.RepoCliente;
 import com.sccom.backend.repositorios.RepoPessoa;
+
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,6 +29,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+/**
+ * Serviço responsável pelas regras de negócio relacionadas a Clientes
+ * Gerencia a dualidade entre a entidade 'Pessoa' e 'Cliente'
+ */
 @Service
 public class ClienteService {
 
@@ -22,22 +42,31 @@ public class ClienteService {
     @Autowired
     private RepoCliente repoCliente;
 
+    /**
+     * Salva um novo cliente
+     * Verifica se a Pessoa já existe no banco (pelo CPF/CNPJ) para evitar duplicidade.
+     *
+     * @param dto Dados recebidos do frontend.
+     * @return ClienteDTO com os dados persistidos.
+     */
     @Transactional
     public ClienteDTO salvar(ClienteDTO dto) {
-        // 1. Limpa a formatação
+
         String documentoLimpo = dto.getDocumento().replaceAll("\\D", "");
         dto.setDocumento(documentoLimpo);
 
-        // 2. Busca Pessoa existente
         Optional<Pessoa> pessoaExistente = repoPessoa.findByDocumento(dto.getDocumento());
 
         Pessoa pessoa;
-        if (pessoaExistente.isPresent()) {
-            pessoa = pessoaExistente.get();
 
-            // LÓGICA NOVA: Se a Pessoa existe, verificamos se ela JÁ É UM CLIENTE
+        // Verifica se existe uma 'Pessoa' com o documento informado
+        if (pessoaExistente.isPresent()) {
+
+            // Caso exista uma pessoa cadastrada, checa se existe um 'Cliente' cadastro com o documento informado
+            pessoa = pessoaExistente.get();
             if (repoCliente.existsById(pessoa.getId())) {
-                // Lança erro 409 Conflict e manda o ID na mensagem para o front capturar
+
+                // Retorna ERROR 409 para o notificar o client side que o cliente ja existe
                 throw new ResponseStatusException(
                         HttpStatus.CONFLICT,
                         "Cliente já existe com ID: " + pessoa.getId()

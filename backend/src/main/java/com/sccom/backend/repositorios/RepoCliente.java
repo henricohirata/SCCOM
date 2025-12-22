@@ -1,3 +1,17 @@
+/**
+ * ----------------------------------------------------------------------------
+ * Sistema de Controle Comercial - SCCOM
+ * ----------------------------------------------------------------------------
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Interface de acesso a dados para a entidade Cliente.
+ * Fornece mecanismos para interagir com registros de clientes no banco de
+ * dados, incluindo busca por ID ou outros atributos.
+ * ----------------------------------------------------------------------------
+ */
+
 package com.sccom.backend.repositorios;
 
 import com.sccom.backend.entidades.Cliente;
@@ -11,12 +25,8 @@ import java.util.List;
 @Repository
 public interface RepoCliente extends JpaRepository<Cliente, Long> {
 
-    // Aqui você pode adicionar buscas específicas, ex: "buscar todos os clientes bloqueados"
     List<Cliente> findByAtivo(Boolean ativo);
 
-    // JPQL Personalizada:
-    // Seleciona o Cliente (c), mas olha para a propriedade 'cpfCnpj'
-    // dentro da relação 'pessoa' (c.pessoa.cpfCnpj).
     @Query("SELECT c FROM Cliente c JOIN c.pessoa p WHERE p.documento LIKE :termo%")
     List<Cliente> buscarPorInicioDocumento(@Param("termo") String termo);
 }
