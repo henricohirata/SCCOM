@@ -54,7 +54,7 @@ public class ControladorCliente {
     }
 
     @GetMapping("/busca-rapida")
-    public ResponseEntity<List<BuscaClienteDTO>> buscarClientes(@RequestParam String documento) {
+    public ResponseEntity<List<BuscaClienteDTO>> buscarClientes(@RequestParam(name = "q") String documento) {
 
         String docLimpo = documento != null ? documento.replaceAll("\\D", "") : "";
 

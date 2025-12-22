@@ -12,13 +12,145 @@
  * ----------------------------------------------------------------------------
  */
 
+import { useState } from 'react';
 import { useGlobal } from '../../context/GlobalContext';
 import ClientSearch from '../../components/BuscaClientes/BuscaClientes';
+import api from '../../services/api'; // <--- Importante: Importar a API
 
 export default function ScreenCliente() {
   const { selectedClient, setSelectedClient, clientSubView, cart, addToCart, clearClientSession } = useGlobal();
 
-  // VIEW 1: Seleção de Cliente (Estado Inicial)
+  // Estados para o fluxo de cadastro
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [preFilledDoc, setPreFilledDoc] = useState('');
+  
+  // Estado do Formulário
+  const [formData, setFormData] = useState({
+      nome: '',
+      email: '',
+      telefone: ''
+  });
+
+  // Inicia o cadastro vindo da Busca (recebe o CPF/CNPJ validado)
+  const handleStartRegister = (doc) => {
+      setPreFilledDoc(doc);
+      setFormData({ nome: '', email: '', telefone: '' }); // Limpa form anterior
+      setIsRegistering(true);
+  };
+
+  const handleCancelRegister = () => {
+      setIsRegistering(false);
+      setPreFilledDoc('');
+  };
+
+  const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // --- INTEGRAÇÃO BACKEND: Envia o POST para criar o cliente ---
+  const handleRegisterSubmit = async (e) => {
+      e.preventDefault();
+      
+      try {
+          const tipoPessoa = preFilledDoc.length === 14 ? 'JURIDICA' : 'FISICA';
+          // Monta o objeto conforme esperado pelo ClienteDTO no Java
+          const payload = {
+              documento: preFilledDoc, // Documento validado (imutável neste form)
+              tipo: tipoPessoa,
+              nome: formData.nome,
+              email: formData.email,
+              telefone: formData.telefone
+          };
+
+          const response = await api.post('/clientes', payload);
+
+          // Sucesso:
+          alert(`Cliente "${response.data.nome}" cadastrado com sucesso!`);
+          
+          // Já seleciona o cliente recém-criado e vai para o PDV
+          setSelectedClient(response.data);
+          setIsRegistering(false);
+
+      } catch (error) {
+          console.error("Erro ao cadastrar cliente:", error);
+          const msg = error.response?.data?.message || "Erro desconhecido ao conectar com o servidor.";
+          alert(`Falha no cadastro: ${msg}`);
+      }
+  };
+
+  // VIEW 3: Cadastro de Novo Cliente
+  if (isRegistering) {
+      return (
+          <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto', background: 'white', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+              <h2 style={{ color: '#2c3e50', marginBottom: '20px', borderBottom: '2px solid #eee', paddingBottom: '10px' }}>Novo Cadastro</h2>
+              
+              <div style={{ background: '#e8f6f3', padding: '15px', borderRadius: '6px', marginBottom: '25px', color: '#16a085' }}>
+                  Documento Validado: <strong>{preFilledDoc}</strong>
+              </div>
+              
+              <form onSubmit={handleRegisterSubmit}>
+                  <div style={{ display: 'grid', gap: '15px' }}>
+                      <div>
+                          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#34495e' }}>Nome Completo / Razão Social *</label>
+                          <input 
+                            type="text" 
+                            name="nome"
+                            value={formData.nome}
+                            onChange={handleInputChange}
+                            required 
+                            style={{ width: '100%', padding: '12px', borderRadius: '4px', border: '1px solid #bdc3c7', fontSize: '16px' }} 
+                            placeholder="Ex: João Silva ou Empresa LTDA"
+                          />
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                          <div>
+                              <label style={{ display: 'block', marginBottom: '5px', color: '#34495e' }}>E-mail</label>
+                              <input 
+                                type="email" 
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #bdc3c7' }} 
+                                placeholder="cliente@email.com"
+                              />
+                          </div>
+                          <div>
+                              <label style={{ display: 'block', marginBottom: '5px', color: '#34495e' }}>Telefone</label>
+                              <input 
+                                type="text" 
+                                name="telefone"
+                                value={formData.telefone}
+                                onChange={handleInputChange}
+                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #bdc3c7' }} 
+                                placeholder="(XX) 9XXXX-XXXX"
+                              />
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '30px', justifyContent: 'flex-end' }}>
+                      <button 
+                        type="button" 
+                        onClick={handleCancelRegister}
+                        style={{ padding: '12px 24px', background: '#95a5a6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+                      >
+                          Cancelar
+                      </button>
+                      <button 
+                        type="submit" 
+                        style={{ padding: '12px 24px', background: '#27ae60', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+                      >
+                          Confirmar Cadastro
+                      </button>
+                  </div>
+              </form>
+          </div>
+      );
+  }
+
+  // VIEW 1: Seleção de Cliente
   if (!selectedClient) {
     return (
       <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
@@ -27,17 +159,19 @@ export default function ScreenCliente() {
           Inicie a venda buscando pelo CPF/CNPJ ou Nome do cliente.
         </p>
 
-        {/* Aqui entra o nosso novo componente */}
-        <ClientSearch onClientSelect={setSelectedClient} />
+        <ClientSearch 
+            onClientSelect={setSelectedClient} 
+            onRegisterNew={handleStartRegister}
+        />
         
         <div style={{ marginTop: '40px', padding: '20px', background: '#fff3cd', borderRadius: '8px', color: '#856404' }}>
-          <strong>Dica:</strong> Pressione ENTER para selecionar o primeiro resultado da lista.
+          <strong>Dica:</strong> Se o cliente não for encontrado, digite o CPF/CNPJ completo e tecle ENTER para cadastrar.
         </div>
       </div>
     );
   }
 
-  // VIEW 2: Cliente Selecionado (Painel de Vendas/PDV)
+  // VIEW 2: Cliente Selecionado (Painel de Vendas) - MANTIDA IGUAL
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -52,7 +186,6 @@ export default function ScreenCliente() {
 
       {clientSubView === 'pos' && (
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
-            {/* ... (O restante do código do PDV/Carrinho permanece igual ao seu arquivo original) ... */}
             <div style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: 'white' }}>
               <h3>Produtos</h3>
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '15px' }}>
@@ -87,9 +220,6 @@ export default function ScreenCliente() {
             </div>
         </div>
       )}
-
-      {clientSubView === 'returns' && <h2>Gestão de Devoluções (Em breve)</h2>}
-      {clientSubView === 'reports' && <h2>Relatórios do Cliente (Em breve)</h2>}
     </div>
   );
 }
