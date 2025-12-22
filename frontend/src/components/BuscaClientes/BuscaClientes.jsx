@@ -13,7 +13,7 @@ export default function ClientSearch({ onClientSelect }) {
     // 1. Efeito de Busca com Debounce
     useEffect(() => {
         const timeOutId = setTimeout(async () => {
-            if (query.length >= 3) {
+            if (query.length >= 1) {
                 try {
                     // O endpoint que vimos no ControladorCliente.java
                     const response = await api.get('/clientes/busca-rapida', {
@@ -85,7 +85,7 @@ export default function ClientSearch({ onClientSelect }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                onFocus={() => query.length >= 3 && setShowDropdown(true)}
+                onFocus={() => query.length >= 1 && setShowDropdown(true)}
             />
 
             {showDropdown && results.length > 0 && (
@@ -104,7 +104,7 @@ export default function ClientSearch({ onClientSelect }) {
                 </ul>
             )}
 
-            {showDropdown && results.length === 0 && query.length >= 3 && (
+            {showDropdown && results.length === 0 && query.length >= 1 && (
                 <div className="dropdown-results">
                     <div className="result-item" style={{ color: '#999', cursor: 'default' }}>
                         Nenhum cliente encontrado.

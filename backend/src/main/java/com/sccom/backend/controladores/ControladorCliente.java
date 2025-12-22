@@ -46,7 +46,7 @@ public class ControladorCliente {
         String termoLimpo = q != null ? q.replaceAll("\\D", "") : "";
 
         // 2. Validação básica de performance
-        if (termoLimpo.length() < 3) {
+        if (termoLimpo.isEmpty()) {
             return ResponseEntity.ok(Collections.emptyList());
         }
 
