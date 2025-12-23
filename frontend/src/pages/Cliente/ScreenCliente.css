@@ -1,0 +1,191 @@
+/* --- Containers Principais --- */
+.register-container {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.search-container {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* --- Títulos e Textos --- */
+.register-title {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.search-title {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.search-subtitle {
+    margin-bottom: 30px;
+    color: #7f8c8d;
+}
+
+/* --- Componentes de Feedback (Boxes) --- */
+.doc-validation-box {
+    background: #e8f6f3;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    color: #16a085;
+}
+
+.search-tip-box {
+    margin-top: 40px;
+    padding: 20px;
+    background: #fff3cd;
+    border-radius: 8px;
+    color: #856404;
+}
+
+/* --- Formulários --- */
+.form-grid {
+    display: grid;
+    gap: 15px;
+}
+
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Input padrão */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #bdc3c7;
+}
+
+/* Input com destaque (Nome) */
+.form-input-large {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #bdc3c7;
+    font-size: 16px;
+}
+
+/* --- Botões --- */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+    justify-content: flex-end;
+}
+
+.btn-base {
+    padding: 12px 24px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-cancel {
+    background: #95a5a6;
+}
+
+.btn-confirm {
+    background: #27ae60;
+}
+
+.btn-close-session {
+    padding: 8px 16px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* --- Painel de Vendas (POS) --- */
+.client-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.pos-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.panel-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background: white;
+}
+
+/* Lista de Produtos */
+.products-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.btn-product {
+    width: 100px;
+    height: 80px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Carrinho */
+.cart-empty-msg {
+    color: #999;
+}
+
+.cart-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cart-item {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.cart-total {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.btn-checkout {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}

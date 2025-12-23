@@ -6,8 +6,8 @@
  * Data: 2025-12
  * ----------------------------------------------------------------------------
  * Descrição:
- * Layout mestre da aplicação. 
- * Implementa a interface de "Ilhas Flutuantes", contendo a barra lateral de 
+ * Layout mestre da aplicação.
+ * Implementa a interface de "Ilhas Flutuantes", contendo a barra lateral de
  * navegação e a área de conteúdo dinâmica onde as 'Screens' são renderizadas.
  * ----------------------------------------------------------------------------
  */
@@ -15,22 +15,20 @@
 import { useGlobal } from '../context/GlobalContext';
 import './MainLayout.css';
 
-export default function MainLayout({ children }) {
-  const { activeTab, setActiveTab, selectedClient, clientSubView, setClientSubView } = useGlobal();
+export default function MainLayout({ children, rightPanel }) {
+  const { activeTab, setActiveTab } = useGlobal();
 
   return (
     <div className="app-container">
-      
-      {/* 1. BARRA SUPERIOR GLOBAL (Ocupa toda a largura) */}
+
+      {/* Header da Aplicação */}
       <header className="global-header">
         <div className="header-left">
            <span className="app-logo">SCCOM</span>
         </div>
-
         <div className="header-center">
-          <input type="text" placeholder="Pesquisar em todo o sistema..." className="global-search-input" />
+          <input type="text" placeholder="Pesquisar no sistema..." className="global-search-input"/>
         </div>
-
         <div className="header-right">
           <div className="user-info">
             <div style={{ textAlign: 'right' }}>
@@ -42,10 +40,10 @@ export default function MainLayout({ children }) {
         </div>
       </header>
 
-      {/* 2. CORPO DO SISTEMA (Onde ficam as Ilhas Flutuantes) */}
+      {/* Área Central / 'Ilhas' */}
       <div className="islands-wrapper">
-        
-        {/* ILHA 1: Menu de Navegação Global */}
+
+        {/* Menu de Navegação Global */}
         <aside className="global-nav">
           <NavButton label="Cli" active={activeTab === 'clientes'} onClick={() => setActiveTab('clientes')} />
           <NavButton label="Prod" active={activeTab === 'produtos'} onClick={() => setActiveTab('produtos')} />
@@ -53,43 +51,17 @@ export default function MainLayout({ children }) {
           <NavButton label="Fin" active={activeTab === 'financeiro'} onClick={() => setActiveTab('financeiro')} />
         </aside>
 
-        {/* ILHA 2: Workspace Principal */}
+        {/* Área de Trabalho Principal */}
         <main className="main-island">
           <div className="workspace-content">
             {children}
           </div>
         </main>
 
-        
-
-        {/* ILHA 3 e 4: Contexto do Cliente (Só aparece se necessário) */}
-        {activeTab === 'clientes' && selectedClient && (
+        {/* Painel Direito (Dossiê/Contexto) - Agora injetado via prop */}
+        {rightPanel && (
           <div className="context-wrapper">
-            
-            {/* Dossiê (Card de Informação) */}
-            <aside className="client-dossier">
-              <div className="dossier-header">
-                <div className="dossier-avatar">{selectedClient.nome.charAt(0)}</div>
-                <h3>{selectedClient.nome}</h3>
-                <span className="badge-vip">VIP</span>
-              </div>
-              <div className="dossier-info">
-                <p><span>CPF</span> {selectedClient.cpf || '...'}</p>
-                <p><span>Tel</span> (11) 99999-9999</p>
-              </div>
-            </aside>
-
-            {/* Menu de Contexto (Barra de Ações) */}
-            <aside className="context-nav">
-              <div className="context-label">Ações</div>
-              <ContextButton label="🛒" subLabel="PDV" active={clientSubView === 'pos'} onClick={() => setClientSubView('pos')} />
-              <ContextButton label="🔄" subLabel="Dev" active={clientSubView === 'returns'} onClick={() => setClientSubView('returns')} />
-              <ContextButton label="📄" subLabel="Rel" active={clientSubView === 'reports'} onClick={() => setClientSubView('reports')} />
-              <div style={{ marginTop: 'auto' }}>
-                <ContextButton label="✕" subLabel="Fechar" onClick={() => { /* Lógica fechar */ }} danger />
-              </div>
-            </aside>
-
+            {rightPanel}
           </div>
         )}
 
@@ -98,16 +70,8 @@ export default function MainLayout({ children }) {
   );
 }
 
-// Componentes Auxiliares
 const NavButton = ({ label, active, onClick }) => (
   <button className={`nav-button ${active ? 'active' : ''}`} onClick={onClick}>
     {label}
-  </button>
-);
-
-const ContextButton = ({ label, subLabel, active, onClick, danger }) => (
-  <button className={`context-button ${active ? 'active' : ''} ${danger ? 'danger' : ''}`} onClick={onClick}>
-    <span style={{ fontSize: '18px' }}>{label}</span>
-    <span style={{ fontSize: '9px', marginTop: '3px' }}>{subLabel}</span>
   </button>
 );
