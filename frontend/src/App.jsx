@@ -32,40 +32,29 @@ function RotaProtegida({ children, cargosPermitidos }) {
 function App() {
   return (
     <ProvedorAutenticacao>
-      <BrowserRouter>
-        <Routes>
-           {/* Rota Raiz com Layout Principal */}
-           <Route path="/" element={<LayoutPrincipal />}>
+      <ProvedorAtendimento> {/* <--- ENVOLVER AQUI */}
+        <BrowserRouter>
+          <Routes>
+             <Route path="/" element={<LayoutPrincipal />}>
+                <Route index element={<Navigate to="/clientes" replace />} />
 
-              {/* Redirecionamento padrão ao abrir o app */}
-              <Route index element={<Navigate to="/clientes" replace />} />
+                <Route
+                  path="clientes/*"
+                  element={
+                    <RotaProtegida cargosPermitidos={['ADMIN', 'VENDEDOR', 'GERENTE']}>
+                      <ModuloCliente />
+                    </RotaProtegida>
+                  }
+                />
 
-              {/* Rota de Clientes - JAL (Jump to /clientes, Link to ModuloClientes) */}
-              <Route
-                path="clientes/*"
-                element={
-                  <RotaProtegida cargosPermitidos={['ADMIN', 'VENDEDOR', 'GERENTE']}>
-                    <ModuloCliente />
-                  </RotaProtegida>
-                }
-              />
-
-              {/* Outras Rotas (Placeholders por enquanto) */}
-              <Route path="produtos" element={<main className="main-island"><div className="workspace-content"><h1>Produtos</h1></div></main>} />
-              <Route path="fornecedores" element={<main className="main-island"><div className="workspace-content"><h1>Fornecedores</h1></div></main>} />
-
-              {/* Rota Financeiro (Exemplo de restrição mais alta) */}
-              <Route
-                path="financeiro"
-                element={
-                  <RotaProtegida cargosPermitidos={['ADMIN', 'FINANCEIRO']}>
-                     <main className="main-island"><div className="workspace-content"><h1>Financeiro (Restrito)</h1></div></main>
-                  </RotaProtegida>
-                }
-              />
-           </Route>
-        </Routes>
-      </BrowserRouter>
+                {/* Agora, ao ir para Produtos e voltar, o ProvedorAtendimento mantém os dados */}
+                <Route path="produtos" element={<main className="main-island"><div className="workspace-content"><h1>Produtos</h1></div></main>} />
+                <Route path="fornecedores" element={<main className="main-island"><div className="workspace-content"><h1>Fornecedores</h1></div></main>} />
+                <Route path="financeiro" element={<main className="main-island"><div className="workspace-content"><h1>Financeiro</h1></div></main>} />
+             </Route>
+          </Routes>
+        </BrowserRouter>
+      </ProvedorAtendimento>
     </ProvedorAutenticacao>
   );
 }

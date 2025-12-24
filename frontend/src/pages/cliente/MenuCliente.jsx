@@ -5,24 +5,24 @@
  * Deve ser passado para a prop 'rightPanel' do MainLayout.
  * ----------------------------------------------------------------------------
  */
-import { useGlobal } from '../../context/GlobalContext';
 
-export default function MenuCliente() {
-  const { selectedClient, clientSubView, setClientSubView } = useGlobal();
+export default function MenuCliente({ cliente, subVisao, setSubVisao, aoFechar }) {
 
-  if (!selectedClient) return null;
+  // Se não tem cliente, não renderiza nada (proteção extra)
+  if (!cliente) return null;
 
   return (
     <>
       {/* Dossiê (Card de Informação) */}
       <aside className="client-dossier">
         <div className="dossier-header">
-          <div className="dossier-avatar">{selectedClient.nome.charAt(0)}</div>
-          <h3>{selectedClient.nome}</h3>
+          {/* [CORREÇÃO] Usamos a prop 'cliente' diretamente */}
+          <div className="dossier-avatar">{cliente.nome.charAt(0)}</div>
+          <h3>{cliente.nome}</h3>
           <span className="badge-vip">VIP</span>
         </div>
         <div className="dossier-info">
-          <p><span>CPF</span> {selectedClient.cpf || selectedClient.documento || '...'}</p>
+          <p><span>CPF</span> {cliente.cpf || cliente.documento || '...'}</p>
           <p><span>Tel</span> (11) 99999-9999</p>
         </div>
       </aside>
@@ -30,11 +30,35 @@ export default function MenuCliente() {
       {/* Menu de Contexto (Barra de Ações) */}
       <aside className="context-nav">
         <div className="context-label">Ações</div>
-        <ContextButton label="🛒" subLabel="PDV" active={clientSubView === 'pos'} onClick={() => setClientSubView('pos')} />
-        <ContextButton label="🔄" subLabel="Dev" active={clientSubView === 'returns'} onClick={() => setClientSubView('returns')} />
-        <ContextButton label="📄" subLabel="Rel" active={clientSubView === 'reports'} onClick={() => setClientSubView('reports')} />
+
+        {/* [CORREÇÃO] Usamos 'subVisao' e 'setSubVisao' recebidos via props */}
+        <ContextButton
+            label="🛒"
+            subLabel="PDV"
+            active={subVisao === 'pdv'}
+            onClick={() => setSubVisao('pdv')}
+        />
+        <ContextButton
+            label="🔄"
+            subLabel="Dev"
+            active={subVisao === 'devolucao'}
+            onClick={() => setSubVisao('devolucao')}
+        />
+        <ContextButton
+            label="📄"
+            subLabel="Rel"
+            active={subVisao === 'historico'}
+            onClick={() => setSubVisao('historico')}
+        />
+
         <div style={{ marginTop: 'auto' }}>
-          <ContextButton label="✕" subLabel="Fechar" onClick={() => { /* Lógica fechar */ }} danger />
+          {/* [CORREÇÃO] Botão fechar agora chama a função do pai */}
+          <ContextButton
+            label="✕"
+            subLabel="Fechar"
+            onClick={aoFechar}
+            danger
+          />
         </div>
       </aside>
     </>
