@@ -14,6 +14,7 @@
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ProvedorAutenticacao, useAutenticacao } from './context/AutenticacaoContext';
+import { ProvedorAtendimento } from './context/ContextoAtendimento';
 import LayoutPrincipal from './layouts/MainLayout';
 import ModuloCliente from './pages/cliente/ModuloCliente';
 

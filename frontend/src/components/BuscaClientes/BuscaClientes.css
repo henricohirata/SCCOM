@@ -68,3 +68,15 @@
     padding: 4px 8px;
     border-radius: 4px;
 }
+
+.result-item.no-result {
+    cursor: default;
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 15px;
+    border-bottom: none;
+}
+
+.result-item.no-result:hover {
+    background-color: #f8f9fa; /* Não muda de cor ao passar o mouse */
+}
