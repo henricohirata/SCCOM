@@ -17,7 +17,7 @@ import api from '../../services/api';
 import { validarCPF, validarCNPJ, limparDocumento } from '../../utils/validadores';
 import './BuscaClientes.css';
 
-export default function ClientSearch({ onClientSelect, onRegisterNew }) {
+export default function BuscaClientes({ onClientSelect, onRegisterNew }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -41,7 +41,7 @@ export default function ClientSearch({ onClientSelect, onRegisterNew }) {
                 setResults([]);
                 setShowDropdown(false);
             }
-        }, 300);
+        }, 100);
         return () => clearTimeout(timeOutId);
     }, [query]);
 

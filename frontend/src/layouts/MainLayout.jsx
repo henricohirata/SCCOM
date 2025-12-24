@@ -21,18 +21,17 @@ export default function LayoutPrincipal() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Verifica qual aba está ativa baseada na URL para pintar o botão
   const abaAtiva = location.pathname.split('/')[1] || 'dashboard';
 
   return (
     <div className="app-container">
-      {/* --- Cabeçalho Global --- */}
+      {/* Header Global (Mantenha igual) */}
       <header className="global-header">
         <div className="header-left">
            <span className="app-logo">SCCOM</span>
         </div>
         <div className="header-center">
-          <input type="text" placeholder="Pesquisar no sistema..." className="global-search-input"/>
+          <input type="text" placeholder="Pesquisar..." className="global-search-input"/>
         </div>
         <div className="header-right">
           <div className="user-info">
@@ -45,23 +44,52 @@ export default function LayoutPrincipal() {
         </div>
       </header>
 
-      {/* --- Wrapper das Ilhas --- */}
-      {/* O CSS .islands-wrapper usa flexbox, permitindo que os filhos se alinhem lado a lado */}
       <div className="islands-wrapper">
 
-        {/* Ilha 1: Navegação Global (Fixa) */}
+        {/* --- MENU LATERAL (SIDEBAR) --- */}
         <aside className="global-nav">
-          <BotaoNav label="Cli" ativo={abaAtiva.includes('clientes')} onClick={() => navigate('/clientes')} />
-          <BotaoNav label="Prod" ativo={abaAtiva.includes('produtos')} onClick={() => navigate('/produtos')} />
-          <BotaoNav label="Forn" ativo={abaAtiva.includes('fornecedores')} onClick={() => navigate('/fornecedores')} />
-          <BotaoNav label="Fin" ativo={abaAtiva.includes('financeiro')} onClick={() => navigate('/financeiro')} />
+
+          <BotaoNav
+            icon="👥"
+            label="Clientes"
+            ativo={abaAtiva.includes('clientes')}
+            onClick={() => navigate('/clientes')}
+          />
+
+          <BotaoNav
+            icon="📦"
+            label="Produtos"
+            ativo={abaAtiva.includes('produtos')}
+            onClick={() => navigate('/produtos')}
+          />
+
+          <BotaoNav
+            icon="🚚"
+            label="Fornecedores"
+            ativo={abaAtiva.includes('fornecedores')}
+            onClick={() => navigate('/fornecedores')}
+          />
+
+          <BotaoNav
+            icon="💰"
+            label="Financeiro"
+            ativo={abaAtiva.includes('financeiro')}
+            onClick={() => navigate('/financeiro')}
+          />
+
+          {/* Espaçador para empurrar configurações para baixo (opcional) */}
+          <div style={{ flex: 1 }}></div>
+
+          <BotaoNav
+            icon="⚙️"
+            label="Configurações"
+            ativo={abaAtiva === 'config'}
+            onClick={() => {}}
+          />
+
         </aside>
 
-        {/* AQUI ESTÁ A MUDANÇA: O Outlet renderiza o componente da rota filha.
-           O Módulo filho (ex: ModuloClientes) retornará um Fragmento contendo:
-           1. <main className="main-island">...</main>
-           2. <aside className="context-wrapper">...</aside> (Opcional)
-        */}
+        {/* --- Conteúdo --- */}
         <Outlet />
 
       </div>
@@ -69,8 +97,10 @@ export default function LayoutPrincipal() {
   );
 }
 
-const BotaoNav = ({ label, ativo, onClick }) => (
+// Componente BotaoNav Atualizado
+const BotaoNav = ({ icon, label, ativo, onClick }) => (
   <button className={`nav-button ${ativo ? 'active' : ''}`} onClick={onClick}>
-    {label}
+    <span className="nav-icon">{icon}</span>
+    <span className="nav-label">{label}</span>
   </button>
 );

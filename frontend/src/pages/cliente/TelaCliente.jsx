@@ -13,7 +13,7 @@
  */
 
 import { useState } from 'react';
-import ClientSearch from '../../components/BuscaClientes/BuscaClientes';
+import BuscaClientes from '../../components/BuscaClientes/BuscaClientes';
 import './TelaCliente.css';
 
 export default function TelaCliente({ clienteSelecionado, setClienteSelecionado, subVisao, fecharSessaoCliente }) {
@@ -69,7 +69,7 @@ export default function TelaCliente({ clienteSelecionado, setClienteSelecionado,
       <h1 className="search-title">Gestão de Clientes</h1>
       <p className="search-subtitle">Busque um cliente para iniciar.</p>
 
-      <ClientSearch
+      <BuscaClientes
         onClientSelect={setClienteSelecionado}
         onRegisterNew={iniciarCadastro}
       />

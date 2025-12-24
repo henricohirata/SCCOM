@@ -1,0 +1,55 @@
+/* frontend/src/variables.css */
+:root {
+    /* --- PALETA DE CORES (BRAND) --- */
+    --color-primary: #3498db;       /* Azul Principal (Ações, Destaques) */
+    --color-primary-dark: #2c3e50;  /* Azul Marinho (Cabeçalhos, Textos Fortes) */
+    --color-secondary: #95a5a6;     /* Cinza (Botões Cancelar, Secundários) */
+
+    /* --- FEEDBACK --- */
+    --color-success: #27ae60;
+    --color-danger: #e74c3c;
+    --color-warning-bg: #fff3cd;
+    --color-warning-text: #856404;
+    --color-info-bg: #e8f6f3;
+    --color-info-text: #16a085;
+
+    /* --- TEXTO --- */
+    --text-main: #2c3e50;
+    --text-secondary: #555555;
+    --text-muted: #7f8c8d;
+    --text-light: #ffffff;
+    --text-placeholder: #999999;
+
+    /* --- BACKGROUNDS --- */
+    --bg-app: #fff9e1;             /* Fundo da Aplicação */
+    --bg-card: #ffffff;            /* Fundo de Cards/Containers */
+    --bg-light: #f8f9fa;           /* Fundos secundários */
+    --bg-hover: #f0f8ff;           /* Hover em listas */
+    --bg-danger-light: #fff5f5;    /* Fundo botões perigo leve */
+    --bg-active-light: #e1f5fe;    /* Fundo botões ativos */
+
+
+
+    --bg-menubar: #e3d7bf;
+
+    --bg-btn-hover: #907761;
+
+
+    --bg-btn-active: #7e634e;      /* Hover em botões */
+    --sdw-btn-active: 0 4px 12px rgba(97, 45, 0, 0.4); /* Sombra botões ativos */
+
+    /* --- BORDAS --- */
+    --border-color: #bdc3c7;
+    --border-light: #eeeeee;
+
+    /* --- DIMENSÕES & ESPAÇAMENTO --- */
+    --header-height: 60px;
+    --border-radius-lg: 20px;
+    --border-radius-md: 8px;
+    --border-radius-sm: 4px;
+
+    /* --- SOMBRAS E EFEITOS --- */
+    --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.03);
+    --focus-ring: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}

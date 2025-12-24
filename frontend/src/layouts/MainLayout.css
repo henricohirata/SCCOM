@@ -1,6 +1,10 @@
-/* --- 1. RESET GLOBAL ROBUSTO --- */
+@import '../variables.css';
+
+
+
+/* --- 1. RESET GLOBAL --- */
 * {
-  box-sizing: border-box; /* Garante que padding não estoure o tamanho dos elementos */
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -8,7 +12,7 @@
 :root, body, #root {
   width: 100%;
   height: 100%;
-  overflow: hidden; /* Trava a rolagem na janela principal */
+  overflow: hidden;
 }
 
 /* --- 2. CONTAINER MESTRE --- */
@@ -17,14 +21,14 @@
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  background-color: #eef2f5;
+  background-color: var(--bg-app);
   font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
-/* --- 3. CABEÇALHO GLOBAL (60px fixo) --- */
+/* --- 3. CABEÇALHO GLOBAL --- */
 .global-header {
   height: 60px;
-  flex-shrink: 0; /* Impede que o cabeçalho encolha */
+  flex-shrink: 0;
   width: 100%;
   display: flex;
   align-items: center;
@@ -75,57 +79,98 @@
 
 /* --- 4. WRAPPER DAS ILHAS --- */
 .islands-wrapper {
-  flex: 1; /* Ocupa todo o espaço restante (100vh - 60px) */
+  flex: 1;
   display: flex;
-  /* Padding apenas nas laterais e embaixo. O topo já tem o header. */
-  padding: 10px 20px 20px 20px; 
+  padding: 10px 20px 20px 20px;
   gap: 15px;
-  overflow: hidden; /* Garante que nada vaze aqui */
-  height: calc(100vh - 60px); /* Força matemática para garantir o tamanho */
+  overflow: hidden;
+  height: calc(100vh - 60px);
 }
 
-/* Estilo Base para TODAS as Ilhas */
-.island-base {
-  height: 100%; /* Preenche 100% do wrapper (respeitando o padding dele) */
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-  overflow: hidden; /* Conteúdo interno não vaza a borda redonda */
-}
-
-/* --- ILHA 1: MENU GLOBAL --- */
+/* --- 5. SIDEBAR / MENU GLOBAL (ANIMADO) --- */
 .global-nav {
-  width: 70px;
-  background: rgba(44, 62, 80, 0.95);
-  backdrop-filter: blur(10px);
-  align-items: center;
-  padding: 20px 0;
+  /* Largura inicial: apenas ícones */
+  width: 80px;
+  background: var(--bg-menubar);
+  padding: 20px 12px; /* Padding levemente ajustado */
   flex-shrink: 0;
-  /* Herda estilos base */
   height: 100%;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+
+  /* Animação suave */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden; /* Esconde o texto longo */
 }
 
+/* Hover: Expande a barra */
+.global-nav:hover {
+  width: 240px;
+}
+
+/* Botão de Navegação */
 .nav-button {
-  width: 45px; height: 45px; margin-bottom: 10px;
-  border: none; background: transparent; color: #aeb6bf;
-  cursor: pointer; border-radius: 12px; font-weight: 600;
-  transition: all 0.2s; font-size: 12px;
-}
-.nav-button:hover { background: rgba(255,255,255,0.1); color: white; }
-.nav-button.active { background: #3498db; color: white; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4); }
+  width: 100%;
+  height: 50px;
+  margin-bottom: 8px;
+  border: none;
+  background: transparent;
+  color: #bdc3c7;
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
 
-/* --- ILHA 2: WORKSPACE --- */
+  /* Flexbox para alinhar ícone e texto */
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  white-space: nowrap; /* Texto não quebra linha */
+}
+
+.nav-button:hover {
+  background: var(--bg-btn-hover);
+  color: white;
+}
+
+.nav-button.active {
+  background: var(--bg-btn-active);
+  color: white;
+  box-shadow: var(--sdw-btn-active);
+}
+
+/* Ícone */
+.nav-icon {
+  font-size: 22px;
+  min-width: 30px; /* Largura fixa para manter alinhamento */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Texto (Label) */
+.nav-label {
+  margin-left: 15px;
+  font-size: 14px;
+  opacity: 0; /* Invisível inicialmente */
+  transform: translateX(-10px);
+  transition: all 0.2s ease;
+}
+
+/* Quando a barra expande, mostra o texto */
+.global-nav:hover .nav-label {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.1s;
+}
+
+/* --- 6. ÁREA DE TRABALHO (MAIN ISLAND) --- */
 .main-island {
   flex: 1;
   background: white;
-  padding: 0; /* O scroll interno cuidará do padding */
-  position: relative;
-  /* Herda estilos base manualmente para garantir */
+  padding: 0;
   height: 100%;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.03);
@@ -137,10 +182,10 @@
 .workspace-content {
   flex: 1;
   padding: 30px;
-  overflow-y: auto; /* O Scroll acontece APENAS aqui dentro */
+  overflow-y: auto;
 }
 
-/* --- ILHAS CONTEXTO --- */
+/* --- 7. CONTEXTO (DIREITA) --- */
 .context-wrapper {
   display: flex;
   gap: 15px;
@@ -148,33 +193,23 @@
   flex-shrink: 0;
 }
 
-.client-dossier {
-  width: 220px;
+/* Estilos de Dossiê e Botões de Contexto (Mantidos do anterior) */
+.client-dossier, .context-nav {
   background: white;
-  padding: 20px;
-  /* Herda estilos base */
   height: 100%;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-  display: flex; flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
+.client-dossier { width: 220px; }
+.context-nav { width: 70px; align-items: center; padding: 20px 0; }
 
 .dossier-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
 .dossier-avatar { width: 60px; height: 60px; background: #3498db; color: white; border-radius: 18px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
 .dossier-info p { display: flex; justify-content: space-between; font-size: 12px; color: #555; margin-bottom: 8px; }
 .badge-vip { background: #fff3cd; color: #856404; padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: bold; }
-
-.context-nav {
-  width: 60px;
-  background: white;
-  align-items: center;
-  padding: 20px 0;
-  /* Herda estilos base */
-  height: 100%;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-  display: flex; flex-direction: column;
-}
 
 .context-label { font-size: 9px; text-transform: uppercase; color: #ccc; margin-bottom: 10px; font-weight: bold; }
 .context-button {
