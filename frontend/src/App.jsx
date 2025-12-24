@@ -12,42 +12,61 @@
  * ----------------------------------------------------------------------------
  */
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { GlobalProvider, useGlobal } from './context/GlobalContext';
-import MainLayout from './layouts/MainLayout';
-import ScreenClientes from './pages/Cliente/ScreenCliente';
-import ClientSidebar from './pages/Cliente/SidebarCliente';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ProvedorAutenticacao, useAutenticacao } from './context/AutenticacaoContext';
+import LayoutPrincipal from './layouts/MainLayout';
+import ModuloCliente from './pages/cliente/ModuloCliente';
 
-function AppContent() {
-  // [2] GET selectedClient FROM CONTEXT
-  const { activeTab, selectedClient } = useGlobal();
+// Componente Wrapper para proteger rotas (Verifica credenciais)
+function RotaProtegida({ children, cargosPermitidos }) {
+  const { temPermissao } = useAutenticacao();
 
-  // [3] DEFINE THE LOGIC FOR THE RIGHT PANEL
-  // We only show the sidebar if we are in 'clientes' tab AND a client is selected
-  const sidebarToRender = (activeTab === 'clientes' && selectedClient)
-    ? <ClientSidebar />
-    : null;
-
-  return (
-    // [4] PASS IT TO MAINLAYOUT
-    <MainLayout rightPanel={sidebarToRender}>
-      {activeTab === 'clientes' && <ScreenClientes />}
-      {activeTab === 'produtos' && <h1>Gestão de Produtos (Em Breve)</h1>}
-      {activeTab === 'fornecedores' && <h1>Gestão de Fornecedores (Em Breve)</h1>}
-      {activeTab === 'financeiro' && <h1>Financeiro (Em Breve)</h1>}
-    </MainLayout>
-  );
+  // Como estamos com usuario mockado, isso passará direto se o cargo bater.
+  // Se o usuario fosse null, redirecionariamos para login.
+  if (!temPermissao(cargosPermitidos)) {
+    return <div style={{padding: 20, color: 'red'}}>⛔ Acesso Negado: Você não tem permissão para esta área.</div>;
+  }
+  return children;
 }
 
 function App() {
   return (
-    <GlobalProvider>
+    <ProvedorAutenticacao>
       <BrowserRouter>
         <Routes>
-           <Route path="/*" element={<AppContent />} />
+           {/* Rota Raiz com Layout Principal */}
+           <Route path="/" element={<LayoutPrincipal />}>
+
+              {/* Redirecionamento padrão ao abrir o app */}
+              <Route index element={<Navigate to="/clientes" replace />} />
+
+              {/* Rota de Clientes - JAL (Jump to /clientes, Link to ModuloClientes) */}
+              <Route
+                path="clientes/*"
+                element={
+                  <RotaProtegida cargosPermitidos={['ADMIN', 'VENDEDOR', 'GERENTE']}>
+                    <ModuloCliente />
+                  </RotaProtegida>
+                }
+              />
+
+              {/* Outras Rotas (Placeholders por enquanto) */}
+              <Route path="produtos" element={<main className="main-island"><div className="workspace-content"><h1>Produtos</h1></div></main>} />
+              <Route path="fornecedores" element={<main className="main-island"><div className="workspace-content"><h1>Fornecedores</h1></div></main>} />
+
+              {/* Rota Financeiro (Exemplo de restrição mais alta) */}
+              <Route
+                path="financeiro"
+                element={
+                  <RotaProtegida cargosPermitidos={['ADMIN', 'FINANCEIRO']}>
+                     <main className="main-island"><div className="workspace-content"><h1>Financeiro (Restrito)</h1></div></main>
+                  </RotaProtegida>
+                }
+              />
+           </Route>
         </Routes>
       </BrowserRouter>
-    </GlobalProvider>
+    </ProvedorAutenticacao>
   );
 }
 

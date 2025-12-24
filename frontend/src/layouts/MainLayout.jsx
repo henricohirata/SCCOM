@@ -12,16 +12,21 @@
  * ----------------------------------------------------------------------------
  */
 
-import { useGlobal } from '../context/GlobalContext';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useAutenticacao } from '../context/AutenticacaoContext';
 import './MainLayout.css';
 
-export default function MainLayout({ children, rightPanel }) {
-  const { activeTab, setActiveTab } = useGlobal();
+export default function LayoutPrincipal() {
+  const { usuario } = useAutenticacao();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Verifica qual aba está ativa baseada na URL para pintar o botão
+  const abaAtiva = location.pathname.split('/')[1] || 'dashboard';
 
   return (
     <div className="app-container">
-
-      {/* Header da Aplicação */}
+      {/* --- Cabeçalho Global --- */}
       <header className="global-header">
         <div className="header-left">
            <span className="app-logo">SCCOM</span>
@@ -32,46 +37,40 @@ export default function MainLayout({ children, rightPanel }) {
         <div className="header-right">
           <div className="user-info">
             <div style={{ textAlign: 'right' }}>
-              <div className="user-name">Henrico</div>
-              <div className="user-role">Admin</div>
+              <div className="user-name">{usuario?.nome || 'Visitante'}</div>
+              <div className="user-role">{usuario?.cargo || ''}</div>
             </div>
-            <div className="user-avatar"></div>
+            <div className="user-avatar">{usuario?.nome?.charAt(0)}</div>
           </div>
         </div>
       </header>
 
-      {/* Área Central / 'Ilhas' */}
+      {/* --- Wrapper das Ilhas --- */}
+      {/* O CSS .islands-wrapper usa flexbox, permitindo que os filhos se alinhem lado a lado */}
       <div className="islands-wrapper">
 
-        {/* Menu de Navegação Global */}
+        {/* Ilha 1: Navegação Global (Fixa) */}
         <aside className="global-nav">
-          <NavButton label="Cli" active={activeTab === 'clientes'} onClick={() => setActiveTab('clientes')} />
-          <NavButton label="Prod" active={activeTab === 'produtos'} onClick={() => setActiveTab('produtos')} />
-          <NavButton label="Forn" active={activeTab === 'fornecedores'} onClick={() => setActiveTab('fornecedores')} />
-          <NavButton label="Fin" active={activeTab === 'financeiro'} onClick={() => setActiveTab('financeiro')} />
+          <BotaoNav label="Cli" ativo={abaAtiva.includes('clientes')} onClick={() => navigate('/clientes')} />
+          <BotaoNav label="Prod" ativo={abaAtiva.includes('produtos')} onClick={() => navigate('/produtos')} />
+          <BotaoNav label="Forn" ativo={abaAtiva.includes('fornecedores')} onClick={() => navigate('/fornecedores')} />
+          <BotaoNav label="Fin" ativo={abaAtiva.includes('financeiro')} onClick={() => navigate('/financeiro')} />
         </aside>
 
-        {/* Área de Trabalho Principal */}
-        <main className="main-island">
-          <div className="workspace-content">
-            {children}
-          </div>
-        </main>
-
-        {/* Painel Direito (Dossiê/Contexto) - Agora injetado via prop */}
-        {rightPanel && (
-          <div className="context-wrapper">
-            {rightPanel}
-          </div>
-        )}
+        {/* AQUI ESTÁ A MUDANÇA: O Outlet renderiza o componente da rota filha.
+           O Módulo filho (ex: ModuloClientes) retornará um Fragmento contendo:
+           1. <main className="main-island">...</main>
+           2. <aside className="context-wrapper">...</aside> (Opcional)
+        */}
+        <Outlet />
 
       </div>
     </div>
   );
 }
 
-const NavButton = ({ label, active, onClick }) => (
-  <button className={`nav-button ${active ? 'active' : ''}`} onClick={onClick}>
+const BotaoNav = ({ label, ativo, onClick }) => (
+  <button className={`nav-button ${ativo ? 'active' : ''}`} onClick={onClick}>
     {label}
   </button>
 );

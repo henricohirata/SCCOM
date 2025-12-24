@@ -7,7 +7,7 @@
  */
 import { useGlobal } from '../../context/GlobalContext';
 
-export default function ClientSidebar() {
+export default function MenuCliente() {
   const { selectedClient, clientSubView, setClientSubView } = useGlobal();
 
   if (!selectedClient) return null;
