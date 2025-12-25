@@ -39,7 +39,7 @@ export default function LayoutPrincipal() {
               <div className="user-name">{usuario?.nome || 'Visitante'}</div>
               <div className="user-role">{usuario?.cargo || ''}</div>
             </div>
-            <div className="user-avatar">{usuario?.nome?.charAt(0)}</div>
+            <div className="user-avatar"></div>
           </div>
         </div>
       </header>
@@ -48,6 +48,7 @@ export default function LayoutPrincipal() {
 
         {/* --- MENU LATERAL (SIDEBAR) --- */}
         <aside className="global-nav">
+
 
           <BotaoNav
             icon="👥"
@@ -75,6 +76,13 @@ export default function LayoutPrincipal() {
             label="Financeiro"
             ativo={abaAtiva.includes('financeiro')}
             onClick={() => navigate('/financeiro')}
+          />
+
+          <BotaoNav
+            icon="💻"
+            label="Gestão"
+            ativo={abaAtiva.includes('gestao')}
+            onClick={() => navigate('/gestao')}
           />
 
           {/* Espaçador para empurrar configurações para baixo (opcional) */}

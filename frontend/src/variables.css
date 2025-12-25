@@ -1,28 +1,40 @@
 /* frontend/src/variables.css */
 :root {
-    /* --- PALETA DE CORES (BRAND) --- */
-    --color-primary: #3498db;       /* Azul Principal (Ações, Destaques) */
-    --color-primary-dark: #2c3e50;  /* Azul Marinho (Cabeçalhos, Textos Fortes) */
-    --color-secondary: #95a5a6;     /* Cinza (Botões Cancelar, Secundários) */
 
-    /* --- FEEDBACK --- */
+    /* --- PALETA DE CORES --- */
+
+    --cor-primaria: #2A3923;      /* Verde Escuro */
+    --cor-secundaria: #535945;    /* Verde Oliva */
+    --cor-terciaria: #6F7863;     /* Verde Sálvia */
+    --cor-accent: #C8AF8F;       /* Bege Claro */
+    --cor-accent-dark: #C1A88A;  /* Bege Escuro */
+    --cor-background: #ECE7E2;   /* Creme */
+    --cor-superficie: #FAFAFA;      /* Branco (Adicional recomendado) */
+
+    /* --- TEXTO --- */
+    --texto-principal: #2A3923;
+    --texto-secundario: #555555;
+    --texto-neutro: #7f8c8d;
+    --texto-destaque: #FAFAFA;
+    --texto-placeholder: #999999;
+
+
+    /* --- CORES DE STATUS --- */
     --color-success: #27ae60;
     --color-danger: #e74c3c;
+
+    /* --- FEEDBACK --- */
+
     --color-warning-bg: #fff3cd;
     --color-warning-text: #856404;
     --color-info-bg: #e8f6f3;
     --color-info-text: #16a085;
 
-    /* --- TEXTO --- */
-    --text-main: #2c3e50;
-    --text-secondary: #555555;
-    --text-muted: #7f8c8d;
-    --text-light: #ffffff;
-    --text-placeholder: #999999;
+
 
     /* --- BACKGROUNDS --- */
-    --bg-app: #fff9e1;             /* Fundo da Aplicação */
-    --bg-card: #ffffff;            /* Fundo de Cards/Containers */
+    --bg-app: var(--cor-background);             /* Fundo da Aplicação */
+    --bg-card: var(--cor-surface);            /* Fundo de Cards/Containers */
     --bg-light: #f8f9fa;           /* Fundos secundários */
     --bg-hover: #f0f8ff;           /* Hover em listas */
     --bg-danger-light: #fff5f5;    /* Fundo botões perigo leve */

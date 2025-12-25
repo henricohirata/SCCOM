@@ -1,4 +1,7 @@
 /* src/components/ClientSearch/ClientSearch.css */
+@import '../../variables.css';
+
+
 .client-search-container {
     position: relative;
     width: 100%;
@@ -79,4 +82,14 @@
 
 .result-item.no-result:hover {
     background-color: #f8f9fa; /* Não muda de cor ao passar o mouse */
+}
+
+.texto-sem-resultado {
+    color: var(--texto-neutro);
+    font-style: italic;
+}
+
+.texto-acao-cadastro {
+    color: var(--cor-primaria);
+    margin-left: 5px;
 }

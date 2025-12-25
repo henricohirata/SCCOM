@@ -52,6 +52,7 @@ function App() {
                 <Route path="produtos" element={<main className="main-island"><div className="workspace-content"><h1>Produtos</h1></div></main>} />
                 <Route path="fornecedores" element={<main className="main-island"><div className="workspace-content"><h1>Fornecedores</h1></div></main>} />
                 <Route path="financeiro" element={<main className="main-island"><div className="workspace-content"><h1>Financeiro</h1></div></main>} />
+                <Route path="gestao" element={<main className="main-island"><div className="workspace-content"><h1>Gestão</h1></div></main>} />
              </Route>
           </Routes>
         </BrowserRouter>

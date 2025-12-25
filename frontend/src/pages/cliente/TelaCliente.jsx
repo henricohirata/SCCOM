@@ -66,8 +66,8 @@ export default function TelaCliente({ clienteSelecionado, setClienteSelecionado,
   // Modo Busca (Padrão)
   return (
     <div className="search-container">
-      <h1 className="search-title">Gestão de Clientes</h1>
-      <p className="search-subtitle">Busque um cliente para iniciar.</p>
+      <h1 className="search-title">Dashboard do Cliente</h1>
+      <p className="search-subtitle">Digite o CPF/CNPJ para iniciar o atendimento</p>
 
       <BuscaClientes
         onClientSelect={setClienteSelecionado}

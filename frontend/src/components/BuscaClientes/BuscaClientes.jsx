@@ -120,7 +120,7 @@ export default function BuscaClientes({ onClientSelect, onRegisterNew }) {
             <input
                 type="text"
                 className="search-input"
-                placeholder="Busque por Nome, CPF ou CNPJ..."
+                placeholder="Busque por CPF ou CNPJ..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -145,10 +145,8 @@ export default function BuscaClientes({ onClientSelect, onRegisterNew }) {
                     ) : (
                         /* Mensagem de Feedback quando não há resultados */
                         <li className="result-item no-result" onClick={() => {}}>
-                            <span style={{ color: '#7f8c8d', fontStyle: 'italic' }}>
-                                Nenhum cliente encontrado. <br/>
-                                <small>Pressione <strong>ENTER</strong> para cadastrar.</small>
-                            </span>
+                            <span className="texto-sem-resultado">Nenhum cliente encontrado</span>
+                            <span className="texto-acao-cadastro"> Pressione <strong>ENTER</strong> para cadastrar</span>
                         </li>
                     )}
                 </ul>
