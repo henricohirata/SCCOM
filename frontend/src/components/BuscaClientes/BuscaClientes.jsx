@@ -120,7 +120,7 @@ export default function BuscaClientes({ onClientSelect, onRegisterNew }) {
             <input
                 type="text"
                 className="search-input"
-                placeholder="Busque por CPF ou CNPJ..."
+                placeholder="Busque o CPF/CNPJ para iniciar o atendimento..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}

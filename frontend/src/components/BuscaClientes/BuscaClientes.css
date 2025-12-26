@@ -81,7 +81,7 @@
 }
 
 .result-item.no-result:hover {
-    background-color: #f8f9fa; /* Não muda de cor ao passar o mouse */
+    background-color: #f8f9fa;
 }
 
 .texto-sem-resultado {
@@ -90,6 +90,6 @@
 }
 
 .texto-acao-cadastro {
-    color: var(--cor-primaria);
+    color: var(--texto-primario);
     margin-left: 5px;
 }

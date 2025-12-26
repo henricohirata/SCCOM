@@ -14,7 +14,7 @@
 
 import { useState } from 'react';
 import BuscaClientes from '../../components/BuscaClientes/BuscaClientes';
-import './TelaCliente.css';
+import './Cliente.css';
 
 export default function TelaCliente({ clienteSelecionado, setClienteSelecionado, subVisao, fecharSessaoCliente }) {
   const [estaCadastrando, setEstaCadastrando] = useState(false);
@@ -67,7 +67,6 @@ export default function TelaCliente({ clienteSelecionado, setClienteSelecionado,
   return (
     <div className="search-container">
       <h1 className="search-title">Dashboard do Cliente</h1>
-      <p className="search-subtitle">Digite o CPF/CNPJ para iniciar o atendimento</p>
 
       <BuscaClientes
         onClientSelect={setClienteSelecionado}

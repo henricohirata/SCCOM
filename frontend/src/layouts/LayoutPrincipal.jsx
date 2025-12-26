@@ -14,7 +14,7 @@
 
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAutenticacao } from '../context/AutenticacaoContext';
-import './MainLayout.css';
+import './LayoutPrincipal.css';
 
 export default function LayoutPrincipal() {
   const { usuario } = useAutenticacao();
@@ -23,73 +23,84 @@ export default function LayoutPrincipal() {
 
   const abaAtiva = location.pathname.split('/')[1] || 'dashboard';
 
+  {/* --- Layout Principal - Container da aplicação --- */}
   return (
-    <div className="app-container">
-      {/* Header Global (Mantenha igual) */}
-      <header className="global-header">
+    <div className="container-app">
+
+      {/* --- Header Global --- */}
+      <header className="header-global">
+
+        {/* --- Logo --- */}
         <div className="header-left">
-           <span className="app-logo">SCCOM</span>
+           <span className="logo-app">SCCOM</span>
         </div>
+
+        {/* --- Barra de Busca --- */}
         <div className="header-center">
-          <input type="text" placeholder="Pesquisar..." className="global-search-input"/>
+          <input type="text" placeholder="Pesquisar..." className="busca-global-input"/>
         </div>
+
+        {/* --- Informações do Usuário --- */}
         <div className="header-right">
-          <div className="user-info">
+
+          <div className="info-usuario">
+
             <div style={{ textAlign: 'right' }}>
-              <div className="user-name">{usuario?.nome || 'Visitante'}</div>
-              <div className="user-role">{usuario?.cargo || ''}</div>
+              <div className="nome-usuario">{usuario?.nome || 'Visitante'}</div>
+              <div className="cargo-usuario">{usuario?.cargo || ''}</div>
             </div>
-            <div className="user-avatar"></div>
+            <div className="foto-usuario"></div>
+
           </div>
+
         </div>
+
       </header>
 
-      <div className="islands-wrapper">
+      <div className="container-tela-principal">
 
-        {/* --- MENU LATERAL (SIDEBAR) --- */}
-        <aside className="global-nav">
-
+        {/* --- MENU LATERAL --- */}
+        <aside className="menu-global">
 
           <BotaoNav
-            icon="👥"
+            icone="👥"
             label="Clientes"
             ativo={abaAtiva.includes('clientes')}
             onClick={() => navigate('/clientes')}
           />
 
           <BotaoNav
-            icon="📦"
+            icone="📦"
             label="Produtos"
             ativo={abaAtiva.includes('produtos')}
             onClick={() => navigate('/produtos')}
           />
 
           <BotaoNav
-            icon="🚚"
+            icone="🚚"
             label="Fornecedores"
             ativo={abaAtiva.includes('fornecedores')}
             onClick={() => navigate('/fornecedores')}
           />
 
           <BotaoNav
-            icon="💰"
+            icone="💰"
             label="Financeiro"
             ativo={abaAtiva.includes('financeiro')}
             onClick={() => navigate('/financeiro')}
           />
 
           <BotaoNav
-            icon="💻"
+            icone="💻"
             label="Gestão"
             ativo={abaAtiva.includes('gestao')}
             onClick={() => navigate('/gestao')}
           />
 
-          {/* Espaçador para empurrar configurações para baixo (opcional) */}
           <div style={{ flex: 1 }}></div>
 
           <BotaoNav
-            icon="⚙️"
+            icone="⚙️"
             label="Configurações"
             ativo={abaAtiva === 'config'}
             onClick={() => {}}
@@ -97,7 +108,7 @@ export default function LayoutPrincipal() {
 
         </aside>
 
-        {/* --- Conteúdo --- */}
+        {/* Tela Principal: Carrega a tela correspondente à rota atual via Outlet */}
         <Outlet />
 
       </div>
@@ -105,10 +116,10 @@ export default function LayoutPrincipal() {
   );
 }
 
-// Componente BotaoNav Atualizado
-const BotaoNav = ({ icon, label, ativo, onClick }) => (
-  <button className={`nav-button ${ativo ? 'active' : ''}`} onClick={onClick}>
-    <span className="nav-icon">{icon}</span>
-    <span className="nav-label">{label}</span>
+// Componente BotaoNav - Botão de navegação na barra lateral do menu global
+const BotaoNav = ({ icone, label, ativo, onClick }) => (
+  <button className={`botao-nav ${ativo ? 'active' : ''}`} onClick={onClick}>
+    <span className="icone-botao-nav">{icone}</span>
+    <span className="label-botao-nav">{label}</span>
   </button>
 );

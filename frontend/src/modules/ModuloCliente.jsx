@@ -1,15 +1,23 @@
 /*
  * ----------------------------------------------------------------------------
- * Módulo: Clientes
+ * Sistema de Controle Comercial - SCCOM
  * ----------------------------------------------------------------------------
- * Atua como o container principal desta seção.
- * Define a estrutura visual específica de Clientes (Área Principal + Sidebar).
+ * Autor: Henrico Hirata
+ * Data: 2025-12
+ * ----------------------------------------------------------------------------
+ * Descrição:
+ * Módulo de Clientes.
+ * Contém a lógica de integração entre o contexto de atendimento e as
+ * telas/componentes específicos do módulo de Clientes.
+ * Constrói a interface principal com da tela de clientes.
  * ----------------------------------------------------------------------------
  */
-import TelaCliente from './TelaCliente';
-import MenuCliente from './MenuCliente';
-import { useAtendimento } from '../../context/ContextoAtendimento'; // <--- IMPORTAR
-import { useAutenticacao } from '../../context/AutenticacaoContext';
+
+import TelaCliente from '../pages/cliente/TelaCliente';
+import MenuCliente from '../pages/cliente/MenuCliente';
+import { useAtendimento } from '../context/ContextoAtendimento';
+import { useAutenticacao } from '../context/AutenticacaoContext';
+import '../pages/cliente/Cliente.css';
 
 export default function ModuloCliente() {
   // Em vez de useState local, usamos o contexto
@@ -25,8 +33,8 @@ export default function ModuloCliente() {
 
   return (
     <>
-      <main className="main-island">
-        <div className="workspace-content">
+      <main className="ilha-principal">
+        <div className="workspace">
           <TelaCliente
             // Mapeando os nomes do contexto para as props que a Tela já espera
             clienteSelecionado={clienteEmAtendimento}
@@ -39,7 +47,7 @@ export default function ModuloCliente() {
 
       {/* Sidebar Direita - Persistente */}
       {clienteEmAtendimento && temPermissao(['ADMIN', 'VENDEDOR', 'GERENTE']) && (
-        <div className="context-wrapper">
+        <div className="area-lateral-contexto">
           <MenuCliente
              cliente={clienteEmAtendimento}
              subVisao={subVisao}

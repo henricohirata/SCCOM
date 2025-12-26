@@ -1,7 +1,6 @@
 @import '../variables.css';
 
 
-
 /* --- RESET GLOBAL --- */
 * {
   box-sizing: border-box;
@@ -16,10 +15,8 @@
   overflow: hidden;
 }
 
-
-
 /* --- CONTAINER PRINCIPAL DA APLICAÇÃO --- */
-.app-container {
+.container-app {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -29,7 +26,7 @@
 }
 
 /* --- CABEÇALHO PRINCIPAL --- */
-.global-header {
+.header-global {
   height: 60px;
   flex-shrink: 0;
   width: 100%;
@@ -42,14 +39,15 @@
 }
 
 /* --- LOGO DA APLICAÇÃO --- */
-.app-logo {
+.logo-app {
   font-weight: 900;
   font-size: 20px;
   color: var(--texto-principal);
   letter-spacing: 1px;
 }
 
-.global-search-input {
+/* --- BARRA DE BUSCA GLOBAL --- */
+.busca-global-input {
   background: var(--cor-superficie);
   border: 1px solid var(--cor-superficie);
   padding: 10px 20px;
@@ -61,40 +59,41 @@
   transition: all 0.2s;
 }
 
-.global-search-input:focus {
+.busca-global-input:focus {
   width: 450px;
   border-color: var(--cor-primaria);
 }
 
-.user-info {
+
+/* --- INFORMAÇÕES DO USUÁRIO --- */
+.info-usuario {
   display: flex;
   align-items: center;
   gap: 12px;
   cursor: pointer;
 }
 
-.user-name { font-weight: 700; font-size: 14px; color: var(--texto-principal); }
-.user-role { font-size: 11px; color: var(--texto-secundario); }
-.user-avatar {
+.nome-usuario { font-weight: 700; font-size: 14px; color: var(--texto-principal); }
+.cargo-usuario { font-size: 11px; color: var(--texto-secundario); }
+.foto-usuario {
   width: 38px; height: 38px;
   background-color: #bdc3c7;
   border-radius: 12px;
   border: 1px solid var(--cor-primaria);
 }
 
-/* --- 4. WRAPPER DAS ILHAS --- */
-.islands-wrapper {
+/* --- TELA PRINCIPAL - WRAPPER DAS ILHAS --- */
+.container-tela-principal {
   flex: 1;
   display: flex;
-  padding: 10px 20px 20px 20px;
+  padding: 0px 20px 20px 20px;
   gap: 15px;
   overflow: hidden;
   height: calc(100vh - 60px);
 }
 
-/* --- 5. SIDEBAR / MENU GLOBAL (ANIMADO) --- */
-.global-nav {
-  /* Largura inicial: apenas ícones */
+/* --- MENU GLOBAL --- */
+.menu-global {
   width: 70px;
   background: var(--cor-primaria);
   padding: 5px 5px; /* Padding levemente ajustado */
@@ -108,7 +107,7 @@
 }
 
 /* Botão de Navegação */
-.nav-button {
+.botao-nav {
   width: 50px;
   height: 50px;
   margin: 5px 5px;
@@ -131,20 +130,20 @@
   overflow: hidden;
 }
 
-.nav-button:hover {
+.botao-nav:hover {
   width: 180px;
   background: var(--cor-terciaria);
   color: var(--texto-destaque);
 }
 
-.nav-button.active {
+.botao-nav.active {
   background: var(--cor-secundaria);
   color: white;
   box-shadow: var(--sdw-btn-active);
 }
 
 /* Ícone */
-.nav-icon {
+.icone-botao-nav {
   font-size: 22px;
   min-width: 30px; /* Largura fixa para manter alinhamento */
   display: flex;
@@ -153,7 +152,7 @@
 }
 
 /* Texto (Label) */
-.nav-label {
+.label-botao-nav {
   margin-left: 15px;
   font-size: 14px;
   opacity: 0; /* Invisível inicialmente */
@@ -162,65 +161,65 @@
 }
 
 /* Quando a barra expande, mostra o texto */
-.global-nav:hover .nav-label {
+.menu-global:hover .label-botao-nav {
   opacity: 1;
   transform: translateX(0);
   transition-delay: 0.1s;
 }
 
-/* --- 6. ÁREA DE TRABALHO (MAIN ISLAND) --- */
-.main-island {
-  flex: 1;
-  background: var(--cor-superficie);
-  padding: 0;
-  height: 100%;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
 
-.workspace-content {
-  flex: 1;
-  padding: 30px;
-  overflow-y: auto;
-}
 
-/* --- 7. CONTEXTO (DIREITA) --- */
-.context-wrapper {
+/* --- ÁREA DE TRABALHO DAS ILHAS --- */
+
+
+/* ÁREA LATERAL PARA SUBMENUS E CONTEXTOS */
+.area-lateral-contexto {
   display: flex;
   gap: 15px;
   height: 100%;
   flex-shrink: 0;
 }
 
-/* Estilos de Dossiê e Botões de Contexto (Mantidos do anterior) */
-.client-dossier, .context-nav {
+/* --- SUBMENU: BARRA LATERAL DIREITA --- */
+
+.submenu {
   background: var(--cor-superficie);
   height: 100%;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.03);
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  align-items: center;
+  padding: 5px;
+  width: 70px;
 }
-.client-dossier { width: 220px; }
-.context-nav { width: 70px; align-items: center; padding: 20px 0; }
 
-.dossier-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
-.dossier-avatar { width: 60px; height: 60px; background: #3498db; color: white; border-radius: 18px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
-.dossier-info p { display: flex; justify-content: space-between; font-size: 12px; color: #555; margin-bottom: 8px; }
-.badge-vip { background: #fff3cd; color: #856404; padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: bold; }
-
-.context-label { font-size: 9px; text-transform: uppercase; color: #ccc; margin-bottom: 10px; font-weight: bold; }
-.context-button {
-  width: 45px; height: 50px; margin-bottom: 8px;
-  border: none; background: #f8f9fa; color: #555;
-  cursor: pointer; border-radius: 10px; display: flex;
-  flex-direction: column; align-items: center; justify-content: center;
+.botao-submenu {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 8px;
+  margin: 5px;
+  background: var(--cor-background);
+  color: #555;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s;
 }
-.context-button:hover { background: #eef2f5; transform: translateX(-2px); }
-.context-button.active { background: #e1f5fe; color: #0288d1; border: 1px solid #b3e5fc; }
-.context-button.danger { background: #fff5f5; color: #e53e3e; }
+
+.botao-submenu:hover {
+  background: var(--cor-accent-dark);
+}
+
+.botao-submenu.active {
+  background: var(--cor-accent);
+}
+
+.botao-submenu.danger {
+  background: #fff5f5;
+  color: #e53e3e;
+}

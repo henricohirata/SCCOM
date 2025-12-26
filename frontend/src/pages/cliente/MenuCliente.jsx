@@ -6,6 +6,8 @@
  * ----------------------------------------------------------------------------
  */
 
+import './Cliente.css';
+
 export default function MenuCliente({ cliente, subVisao, setSubVisao, aoFechar }) {
 
   // Se não tem cliente, não renderiza nada (proteção extra)
@@ -28,8 +30,7 @@ export default function MenuCliente({ cliente, subVisao, setSubVisao, aoFechar }
       </aside>
 
       {/* Menu de Contexto (Barra de Ações) */}
-      <aside className="context-nav">
-        <div className="context-label">Ações</div>
+      <aside className="submenu">
 
         {/* [CORREÇÃO] Usamos 'subVisao' e 'setSubVisao' recebidos via props */}
         <ContextButton
@@ -52,7 +53,6 @@ export default function MenuCliente({ cliente, subVisao, setSubVisao, aoFechar }
         />
 
         <div style={{ marginTop: 'auto' }}>
-          {/* [CORREÇÃO] Botão fechar agora chama a função do pai */}
           <ContextButton
             label="✕"
             subLabel="Fechar"
@@ -66,7 +66,7 @@ export default function MenuCliente({ cliente, subVisao, setSubVisao, aoFechar }
 }
 
 const ContextButton = ({ label, subLabel, active, onClick, danger }) => (
-  <button className={`context-button ${active ? 'active' : ''} ${danger ? 'danger' : ''}`} onClick={onClick}>
+  <button className={`botao-submenu ${active ? 'active' : ''} ${danger ? 'danger' : ''}`} onClick={onClick}>
     <span style={{ fontSize: '18px' }}>{label}</span>
     <span style={{ fontSize: '9px', marginTop: '3px' }}>{subLabel}</span>
   </button>
